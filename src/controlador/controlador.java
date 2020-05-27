@@ -2,12 +2,14 @@ package controlador;
 import arch_excel.Excel;
 import java.util.Calendar;
 
-public class controlador {
+public class Controlador {
    private Excel excel = new Excel();
    
     public String obtenerDiaString()
     {
-        String nombreArch = String.valueOf(Calendar.DATE);
+        Calendar cal = Calendar.getInstance();
+        String fechaActual=String.valueOf(cal.get(Calendar.DAY_OF_MONTH))+"-"+String.valueOf(cal.get(Calendar.MONTH))+"-"+String.valueOf(cal.get(Calendar.YEAR));
+        String nombreArch = fechaActual+".xlsx";
         return nombreArch;
     }
     public void genearArchivo(String [][]contenido)
@@ -15,6 +17,6 @@ public class controlador {
         String nombreArch = obtenerDiaString();
         String rutaArchivo = "C:\\Ficheros-Excel\\"+nombreArch;
         String cabecera [] = {"Tiempo","Temperatura","Promedio"}; 
-        excel.escribir(nombreArch,rutaArchivo,cabecera,contenido);
+        excel.Escribir(nombreArch,rutaArchivo,cabecera,contenido);
     }
 }

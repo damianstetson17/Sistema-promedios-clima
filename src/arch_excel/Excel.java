@@ -1,7 +1,9 @@
 package arch_excel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -11,7 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Excel {
     
-    public  void escribir(String nombreArchivo, String rutaArchivo, String[] cabecera, String[][] contenido){
+    public void Escribir(String nombreArchivo, String rutaArchivo, String[] cabecera, String[][] contenido){
         
         String hoja = "Hoja 1";
         XSSFWorkbook libro = new XSSFWorkbook();
@@ -36,6 +38,7 @@ public class Excel {
 		}				
             }
 	}
+        
         File file;
 	file = new File(rutaArchivo);
 	try (FileOutputStream fileOuS = new FileOutputStream(file))
@@ -43,15 +46,17 @@ public class Excel {
             if (file.exists()) // si el archivo existe se elimina
             {
 		file.delete();
-		System.out.println("Archivo eliminado por uno nuevo");
+		System.out.println("Archivo con el mismo nombre, eliminado por uno nuevo.");
             }
             libro.write(fileOuS);
             fileOuS.flush();
             fileOuS.close();
-            System.out.println("Archivo generado exitosamente");
+            System.out.println("Archivo generado exitosamente.");
 			
-	} catch (Exception e) {
-            System.out.println(e.getMessage());
+	} catch (FileNotFoundException e) {
+            System.out.println("No se encuentra el archivo:" + e.getMessage());
+        }catch(IOException ex){
+            System.out.println("Otro tipo de error:" + ex.getMessage());
+        }
     }
-  }
 }
