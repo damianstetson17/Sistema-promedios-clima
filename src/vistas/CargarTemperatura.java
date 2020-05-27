@@ -16,14 +16,23 @@ public class CargarTemperatura extends javax.swing.JFrame {
     public CargarTemperatura(Controlador controlador) {
         initComponents();
         this.controlador= controlador;
-        setVisible (true);
-        setTitle("Temperaturas");
         
+        setTitle("Temperaturas");
+          this.setSize(500, 353);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         Font fuente= new Font("Dialog",15,18);
         setFont(fuente);
         jLabel1.setFont(fuente);
+        BTNCargar.setFont(fuente);
+        BTNGenerar.setFont(fuente);     
+        BTNTerminar.setFont(fuente);
+        comboMomento.setFont(fuente);
+        temperatura.setFont(fuente);    
         
         cargarcomboMomento();
+        
+        setVisible (true);
     }
 
      private void cargarcomboMomento () {
@@ -47,6 +56,7 @@ public class CargarTemperatura extends javax.swing.JFrame {
         BTNCargar = new javax.swing.JButton();
         BTNGenerar = new javax.swing.JButton();
         BTNTerminar = new javax.swing.JButton();
+        labelpromedio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -59,7 +69,7 @@ public class CargarTemperatura extends javax.swing.JFrame {
                 comboMomentoActionPerformed(evt);
             }
         });
-        getContentPane().add(comboMomento, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 160, 30));
+        getContentPane().add(comboMomento, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 160, 30));
 
         temperatura.setText("celcius");
         getContentPane().add(temperatura, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 70, 30));
@@ -70,7 +80,7 @@ public class CargarTemperatura extends javax.swing.JFrame {
                 BTNCargarActionPerformed(evt);
             }
         });
-        getContentPane().add(BTNCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 110, 60));
+        getContentPane().add(BTNCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 110, 60));
 
         BTNGenerar.setText("Generar Archivo");
         BTNGenerar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +88,7 @@ public class CargarTemperatura extends javax.swing.JFrame {
                 BTNGenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(BTNGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 150, 60));
+        getContentPane().add(BTNGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 150, 60));
 
         BTNTerminar.setText("Terminar Dia");
         BTNTerminar.addActionListener(new java.awt.event.ActionListener() {
@@ -86,20 +96,17 @@ public class CargarTemperatura extends javax.swing.JFrame {
                 BTNTerminarActionPerformed(evt);
             }
         });
-        getContentPane().add(BTNTerminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 140, 60));
+        getContentPane().add(BTNTerminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 140, 60));
+        getContentPane().add(labelpromedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 330, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTNGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNGenerarActionPerformed
         String TempsDia [][] =new String [3][3];
-        
-        /*//calcular promedio   
-            for( int k=0 ;k<3 ; k++ ){
-                promedio+= Vtemps[k];  
-            }*/
-            
         TempsDia [1][2] =String.valueOf(promedio/3);
+        float prom= promedio/3;
+        
         int a=0;
            for(int colum=0;  colum<3; colum++) {
                
@@ -107,7 +114,9 @@ public class CargarTemperatura extends javax.swing.JFrame {
                TempsDia[colum][1]=String.valueOf(Vtemps[a]);
                a++;
            } 
-        controlador.genearArchivo(TempsDia);      
+        controlador.genearArchivo(TempsDia);     
+        JOptionPane.showMessageDialog(null, "Archivo generado correctamente.");
+         setVisible(true);
     }//GEN-LAST:event_BTNGenerarActionPerformed
 
     private void BTNCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNCargarActionPerformed
@@ -120,6 +129,9 @@ public class CargarTemperatura extends javax.swing.JFrame {
                Vmomentos[i]= momento;
                promedio+= Vtemps[i]; 
                i++;
+               JOptionPane.showMessageDialog(null, "Se cargo correctamente.");
+               labelpromedio.setText("Promedio del dia: "+promedio/3);
+               setVisible(true);
              }else{
                  i=0;
              }
@@ -140,10 +152,15 @@ public class CargarTemperatura extends javax.swing.JFrame {
         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (respuesta == JOptionPane.NO_OPTION) {
             setVisible(true);
-        
+            
         }else{
             Vtemps=new float[] {0,0,0};
             Vmomentos = new String []{"-","-","-"};
+            promedio=0;
+            labelpromedio.setText("");
+            JOptionPane.showMessageDialog(null, "Datos borrados");
+            setVisible(true);
+            
         }
     }//GEN-LAST:event_BTNTerminarActionPerformed
  
@@ -153,6 +170,7 @@ public class CargarTemperatura extends javax.swing.JFrame {
     private javax.swing.JButton BTNTerminar;
     private javax.swing.JComboBox<String> comboMomento;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel labelpromedio;
     private javax.swing.JTextField temperatura;
     // End of variables declaration//GEN-END:variables
 }
